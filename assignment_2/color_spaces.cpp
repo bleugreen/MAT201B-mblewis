@@ -170,30 +170,35 @@ struct MyApp : App {
         
     }
     
-    // "Custom" mode - separates points by the majority color, then arranges them in a spiral
-    // On its own it's not very interesting, but the animations from this mode to others is satisfying
-    // Furthermore, it shows the differences in how the colors are organized in RGB and HSV coordinates
+    // "Firework" mode - separates points by the majority color, then arranges them in a spiral
+    // radius is determined by brightness
+    // depth is determined by the average of max color and chroma (strength of that color)
+    // an offset is added to separate the red, green, and blue spirals for clarity
+    
     Vec3f rgbSeparate(Vec3f rgb){
         float ma = max(rgb.x, rgb.y, rgb.z);
         float mi = min(rgb.x, rgb.y, rgb.z);
         float chroma = ma - mi;
-        Vec3f hsv = rgbToHSV(rgb);
         
-        float x = 0;
-        float y = chroma*(cos(hsv.z*2*M_PI));
-        float z = chroma*(sin(hsv.z*2*M_PI));
-        if(ma > mi){
-            if(rgb.x == ma){
-                x = -0.5;
-            }
-            if(rgb.y == ma){
-                x = 0;
-            }
-            if(rgb.z == ma){
-                x = 0.5;
-            }
+        float t = (ma+chroma)/2;
+        float offset = 0;
+        
+        float x = ma*(cos(t*180/M_PI))/2;
+        float y = ma*(sin(t*180/M_PI))/2;
+        float z = t/2;
+        
+
+        if(rgb.x == ma){
+            offset = -0.5;
         }
-        return Vec3f(x, y, z);
+        if(rgb.y == ma){
+            offset = 0;
+        }
+        if(rgb.z == ma){
+            offset = 0.5;
+        }
+        
+        return Vec3f(x, y, z+offset);
     }
 };
 
