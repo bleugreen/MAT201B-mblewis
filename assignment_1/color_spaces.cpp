@@ -38,7 +38,10 @@ struct MyApp : App {
           
         // converts RGB Vec3f to HSV coordinates
         position[2].push_back(rgbToHSV(Vec3f(pixel.r / 256.0, pixel.g / 256.0, pixel.b / 256.0)));
+          
         position[3].push_back(rgbSeparate(Vec3f(pixel.r / 256.0, pixel.g / 256.0, pixel.b / 256.0)));
+          
+          
         mesh.color(pixel.r / 256.0, pixel.g / 256.0, pixel.b / 256.0);
       }
     }
@@ -118,12 +121,10 @@ struct MyApp : App {
     Vec3f cosInterpolate(Vec3f last, Vec3f target, double progress){
         double mu;
         mu = (1-cos(progress*M_PI))/2;
-        Vec3f interp;
-        interp.x = last.x*(1-mu)+target.x*mu;
-        interp.y = last.y*(1-mu)+target.y*mu;
-        interp.z = last.z*(1-mu)+target.z*mu;
-
-        return interp;
+        
+        return last*(1-mu)+target*mu;
+        
+        // update from class 1/29: easier to use vector operations than split into x,y,z
     }
     
     // converts RGB Vec3f to HSV
@@ -162,8 +163,8 @@ struct MyApp : App {
         
         // convert polar to cartesian coords
         // where saturation = distance from center and hue = angle around x-axis
-        float x = saturation*(cos(hue*M_PI/180))/2;
-        float y = saturation*(sin(hue*M_PI/180))/2;
+        float x = saturation*(sin(hue*M_PI/180))/2;
+        float y = saturation*(cos(hue*M_PI/180))/2;
         
         // centers value about origin
         return Vec3f(x, y, value-0.5);
