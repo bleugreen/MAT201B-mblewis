@@ -1,0 +1,11 @@
+-- Could NOT find PkgConfig (missing: PKG_CONFIG_EXECUTABLE) 
+-- ==== Configuring Gamma.
+-- Could NOT find PkgConfig (missing: PKG_CONFIG_EXECUTABLE) 
+-- Found SNDFILE 
+-- libsndfile: /usr/local/lib/libsndfile.dylib
+-- threading: 
+-- Could NOT find Vulkan (missing: VULKAN_LIBRARY VULKAN_INCLUDE_DIR) 
+-- Using Cocoa for window creation
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/build/particles-p2/Release
