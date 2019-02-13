@@ -4,7 +4,7 @@ using namespace al;
 #include <vector>
 using namespace std;
 
-#define N (11)  // number of particles
+#define N (30)  // number of particles
 #define CLOUD_WIDTH (5.0)
 
 const char* vertex = R"(
@@ -103,8 +103,8 @@ struct AlloApp : App {
   Mesh pointMesh;          // holds positions
   vector<float> mass;      // holds masses
   vector<Vec3f> velocity;  // holds velocities
-    float gravConst = 0.00000001;
-    float dragConst = 20;
+    float gravConst = 0.000000006;
+    float dragConst = 10;
     
 
   void onCreate() override {
@@ -132,23 +132,28 @@ struct AlloApp : App {
 
     // create a mesh of points scattered randomly with random colors
     //
-      std::vector<float> solarMasses{55483.3, 0.009167, 0.13583, 0.1667, 0.0005, 0.01783, 53.0, 15.833, 2.333, 2.833}; // solar masses / 6
-      std::vector<float> solarDist{0, 0.067, 0.1167, 0.1667, 0.1179, 0.25, 0.8667, 1.583, 3.2, 5.0167};                // solar dists / 6
+      std::vector<float> solarMasses{5483.3, 0.009167, 0.13583, 0.1667, 0.0005, 0.01783, 53.0, 15.833, 2.333, 2.833}; // solar masses / 6
+      std::vector<float> solarDist{0, 0.0067, 0.01167, 0.01667, 0.01179, 0.025, 0.08667, 0.1583, 0.32, 0.40167};                // solar dists / 6
+      std::vector<float> initSpeed{0, 47.87, 35.02, 29.78, 24.07, 3.07, 9.69, 6.81, 5.43};
     pointMesh.primitive(Mesh::POINTS);
       for(int i=0; i<solarMasses.size(); i++){
           mass.push_back(solarMasses[i]);
           pointMesh.vertex(
-                           Vec3f(solarDist[i], rnd::uniformS(), rnd::uniformS()) *
-                           CLOUD_WIDTH);
-          velocity.push_back(Vec3f(0,0,0));
+                           Vec3f(solarDist[i], i*rnd::uniformS(), i*rnd::uniformS()) );
+          if(i==0) velocity.push_back(Vec3f(0,0,0));
+          else{
+              velocity.push_back(Vec3f(0,initSpeed[i], initSpeed[i]) * 0.005);
+              //velocity.push_back(Vec3f(0,0.01,0.01));
+          }
           pointMesh.color(HSV(rnd::uniform(), 1.0, 1.0-i/solarMasses.size()));
+          
           
       }
       for (int i = solarMasses.size(); i < N; i++) {
       pointMesh.vertex(
           Vec3f(rnd::uniformS(), rnd::uniformS(), rnd::uniformS()) *
           CLOUD_WIDTH);
-        velocity.push_back(Vec3f(0,0,0));
+        velocity.push_back(Vec3f(rnd::uniformS(), rnd::uniformS(), rnd::uniformS()) * 0.01);
         mass.push_back(rnd::uniform()*0.00000167); // I initialized here so i can connect color to mass (later)
         pointMesh.color(HSV(rnd::uniform(), 1.0, 0.2));
     }
@@ -167,14 +172,14 @@ struct AlloApp : App {
         Vec3f& b(vertex[j]);  // alias
         Vec3f uAB(b-a);      // uAB = vector between a and b
         Vec3f normAB = uAB.normalize();     // make it a unit vector
-          if(uAB.mag()> 0) {
-              float coeff = ((gravConst*mass[i]*mass[j])/pow(uAB.mag(),2));
+          if(uAB.mag()> 0.005) {
+              float coeff = ((gravConst)/pow(uAB.mag(),2));
               Vec3f gravityA = coeff*normAB;
-              velocity[i] += gravityA / mass[i];
-              velocity[j] += gravityA*-1 / mass[j];
+              velocity[i] += gravityA * mass[j];
+              velocity[j] += -gravityA* mass[i];
           }
         else{
-            if(velocity[i].mag() > 25 || velocity[j].mag() > 25){ // combine on fast collision
+            if(velocity[i].mag() > 1|| velocity[j].mag() > 1){ // combine on fast collision
                 if(mass[i] < mass[j]){
                     mass[j] += mass[i];
                     mass.erase(mass.begin()+i);
@@ -189,6 +194,17 @@ struct AlloApp : App {
                     vertex.erase(vertex.begin()+j);
                     cout << "boop" << endl;
                 }
+            }
+            else{
+                if(mass[i] < mass[j]){
+                    velocity[i] *= -1;
+                    cout << "boink" << endl;
+                }
+                else{
+                    velocity[j] *= -1;
+                    cout << "boink" << endl;
+                }
+                
             }
         }
         
