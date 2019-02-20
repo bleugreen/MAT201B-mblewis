@@ -43,18 +43,18 @@ RM = /usr/local/Cellar/cmake/3.13.3/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/ml/MAT/MAT201b-2019/allolib/cmake/single_file
+CMAKE_SOURCE_DIR = /Users/ml/MAT/MAT201B-2019/allolib/cmake/single_file
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/build/particles-p1/Release
+CMAKE_BINARY_DIR = /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/build/particles-p1/Release
 
 # Utility rule file for particles-p1_run.
 
 # Include the progress variables for this target.
 include CMakeFiles/particles-p1_run.dir/progress.make
 
-CMakeFiles/particles-p1_run: /Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/bin/particles-p1
-	cd /Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/bin && ./particles-p1
+CMakeFiles/particles-p1_run: /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/bin/particles-p1
+	cd /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/bin && ./particles-p1
 
 particles-p1_run: CMakeFiles/particles-p1_run
 particles-p1_run: CMakeFiles/particles-p1_run.dir/build.make
@@ -71,6 +71,6 @@ CMakeFiles/particles-p1_run.dir/clean:
 .PHONY : CMakeFiles/particles-p1_run.dir/clean
 
 CMakeFiles/particles-p1_run.dir/depend:
-	cd /Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/build/particles-p1/Release && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/ml/MAT/MAT201b-2019/allolib/cmake/single_file /Users/ml/MAT/MAT201b-2019/allolib/cmake/single_file /Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/build/particles-p1/Release /Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/build/particles-p1/Release /Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/build/particles-p1/Release/CMakeFiles/particles-p1_run.dir/DependInfo.cmake --color=$(COLOR)
+	cd /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/build/particles-p1/Release && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/ml/MAT/MAT201B-2019/allolib/cmake/single_file /Users/ml/MAT/MAT201B-2019/allolib/cmake/single_file /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/build/particles-p1/Release /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/build/particles-p1/Release /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/build/particles-p1/Release/CMakeFiles/particles-p1_run.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/particles-p1_run.dir/depend
 

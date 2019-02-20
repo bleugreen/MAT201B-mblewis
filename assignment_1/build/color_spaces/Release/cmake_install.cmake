@@ -46,5 +46,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/build/color_spaces/Release/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/build/color_spaces/Release/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

@@ -46,7 +46,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /Users/ml/MAT/MAT201B-2019/allolib/cmake/single_file
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/build/color_spaces/Release
+CMAKE_BINARY_DIR = /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/build/color_spaces/Release
 
 # Include any dependencies generated for this target.
 include CMakeFiles/color_spaces.dir/depend.make
@@ -57,41 +57,41 @@ include CMakeFiles/color_spaces.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/color_spaces.dir/flags.make
 
-CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp.o: CMakeFiles/color_spaces.dir/flags.make
-CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp.o: /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/build/color_spaces/Release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp.o -c /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp
+CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp.o: CMakeFiles/color_spaces.dir/flags.make
+CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp.o: /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/build/color_spaces/Release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp.o -c /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp
 
-CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp > CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp.i
+CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp > CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp.i
 
-CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp -o CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp.s
+CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp -o CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp.s
 
 # Object files for target color_spaces
 color_spaces_OBJECTS = \
-"CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp.o"
+"CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp.o"
 
 # External object files for target color_spaces
 color_spaces_EXTERNAL_OBJECTS =
 
-/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/bin/color_spaces: CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp.o
-/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/bin/color_spaces: CMakeFiles/color_spaces.dir/build.make
-/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/bin/color_spaces: /Users/ml/MAT/MAT201B-2019/allolib/build/Release/lib/libal.a
-/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/bin/color_spaces: /usr/local/lib/libfreeimage.dylib
-/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/bin/color_spaces: /usr/local/lib/libfreetype.dylib
-/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/bin/color_spaces: /Users/ml/MAT/MAT201B-2019/allolib/build/Release/Gamma/lib/libGamma.a
-/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/bin/color_spaces: /Users/ml/MAT/MAT201B-2019/allolib/build/Release/glfw/src/libglfw3.a
-/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/bin/color_spaces: /Users/ml/MAT/MAT201B-2019/allolib/build/Release/glew/lib/libGLEW.a
-/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/bin/color_spaces: /usr/local/lib/libsndfile.dylib
-/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/bin/color_spaces: CMakeFiles/color_spaces.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/build/color_spaces/Release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/bin/color_spaces"
+/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/bin/color_spaces: CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp.o
+/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/bin/color_spaces: CMakeFiles/color_spaces.dir/build.make
+/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/bin/color_spaces: /Users/ml/MAT/MAT201B-2019/allolib/build/Release/lib/libal.a
+/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/bin/color_spaces: /usr/local/lib/libfreeimage.dylib
+/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/bin/color_spaces: /usr/local/lib/libfreetype.dylib
+/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/bin/color_spaces: /Users/ml/MAT/MAT201B-2019/allolib/build/Release/Gamma/lib/libGamma.a
+/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/bin/color_spaces: /Users/ml/MAT/MAT201B-2019/allolib/build/Release/glfw/src/libglfw3.a
+/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/bin/color_spaces: /Users/ml/MAT/MAT201B-2019/allolib/build/Release/glew/lib/libGLEW.a
+/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/bin/color_spaces: /usr/local/lib/libsndfile.dylib
+/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/bin/color_spaces: CMakeFiles/color_spaces.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/build/color_spaces/Release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/bin/color_spaces"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/color_spaces.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-CMakeFiles/color_spaces.dir/build: /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/bin/color_spaces
+CMakeFiles/color_spaces.dir/build: /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/bin/color_spaces
 
 .PHONY : CMakeFiles/color_spaces.dir/build
 
@@ -100,6 +100,6 @@ CMakeFiles/color_spaces.dir/clean:
 .PHONY : CMakeFiles/color_spaces.dir/clean
 
 CMakeFiles/color_spaces.dir/depend:
-	cd /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/build/color_spaces/Release && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/ml/MAT/MAT201B-2019/allolib/cmake/single_file /Users/ml/MAT/MAT201B-2019/allolib/cmake/single_file /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/build/color_spaces/Release /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/build/color_spaces/Release /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/build/color_spaces/Release/CMakeFiles/color_spaces.dir/DependInfo.cmake --color=$(COLOR)
+	cd /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/build/color_spaces/Release && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/ml/MAT/MAT201B-2019/allolib/cmake/single_file /Users/ml/MAT/MAT201B-2019/allolib/cmake/single_file /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/build/color_spaces/Release /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/build/color_spaces/Release /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/build/color_spaces/Release/CMakeFiles/color_spaces.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/color_spaces.dir/depend
 

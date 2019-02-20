@@ -3,7 +3,7 @@
 
 # Relative path conversion top directories.
 set(CMAKE_RELATIVE_PATH_TOP_SOURCE "/Users/ml/MAT/MAT201B-2019/allolib/cmake/single_file")
-set(CMAKE_RELATIVE_PATH_TOP_BINARY "/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/build/color_spaces/Release")
+set(CMAKE_RELATIVE_PATH_TOP_BINARY "/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/build/color_spaces/Release")
 
 # Force unix paths in dependencies.
 set(CMAKE_FORCE_UNIX_PATHS 1)

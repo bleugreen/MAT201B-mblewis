@@ -4,7 +4,7 @@ using namespace al;
 #include <vector>
 using namespace std;
 
-#define N (30)  // number of particles
+#define N (1000)  // number of particles
 #define CLOUD_WIDTH (5.0)
 
 const char* vertex = R"(
@@ -12,17 +12,20 @@ const char* vertex = R"(
 
 layout (location = 0) in vec3 vertexPosition;
 layout (location = 1) in vec4 vertexColor;
+layout (location = 2) in vec2 vertexSize; // as a 2D texture cordinate, but we ignore the y
 
 uniform mat4 al_ModelViewMatrix;
 uniform mat4 al_ProjectionMatrix;
 
 out Vertex {
-  vec4 color;
+    vec4 color;
+    float size;
 } vertex;
 
 void main() {
-  gl_Position = al_ModelViewMatrix * vec4(vertexPosition, 1.0);
-  vertex.color = vertexColor;
+    gl_Position = al_ModelViewMatrix * vec4(vertexPosition, 1.0);
+    vertex.color = vertexColor;
+    vertex.size = vertexSize.x;
 }
 )";
 
@@ -30,8 +33,8 @@ const char* fragment = R"(
 #version 400
 
 in Fragment {
-  vec4 color;
-  vec2 textureCoordinate;
+    vec4 color;
+    vec2 textureCoordinate;
 } fragment;
 
 uniform sampler2D alphaTexture;
@@ -39,9 +42,9 @@ uniform sampler2D alphaTexture;
 layout (location = 0) out vec4 fragmentColor;
 
 void main() {
-  // use the first 3 components of the color (xyz is rgb), but take the alpha value from the texture
-  //
-  fragmentColor = vec4(fragment.color.xyz, texture(alphaTexture, fragment.textureCoordinate));
+    // use the first 3 components of the color (xyz is rgb), but take the alpha value from the texture
+    //
+    fragmentColor = vec4(fragment.color.xyz, texture(alphaTexture, fragment.textureCoordinate));
 }
 )";
 
@@ -55,44 +58,44 @@ layout (triangle_strip, max_vertices = 4) out;
 
 uniform mat4 al_ProjectionMatrix;
 
-// this uniform is *not* passed in automatically by AlloLib; do it manually
-//
-uniform float halfSize;
-
 in Vertex {
-  vec4 color;
+    vec4 color;
+    float size;
 } vertex[];
 
 out Fragment {
-  vec4 color;
-  vec2 textureCoordinate;
+    vec4 color;
+    vec2 textureCoordinate;
 } fragment;
 
 void main() {
-  mat4 m = al_ProjectionMatrix; // rename to make lines shorter
-  vec4 v = gl_in[0].gl_Position; // al_ModelViewMatrix * gl_Position
-
-  gl_Position = m * (v + vec4(-halfSize, -halfSize, 0.0, 0.0));
-  fragment.textureCoordinate = vec2(0.0, 0.0);
-  fragment.color = vertex[0].color;
-  EmitVertex();
-
-  gl_Position = m * (v + vec4(halfSize, -halfSize, 0.0, 0.0));
-  fragment.textureCoordinate = vec2(1.0, 0.0);
-  fragment.color = vertex[0].color;
-  EmitVertex();
-
-  gl_Position = m * (v + vec4(-halfSize, halfSize, 0.0, 0.0));
-  fragment.textureCoordinate = vec2(0.0, 1.0);
-  fragment.color = vertex[0].color;
-  EmitVertex();
-
-  gl_Position = m * (v + vec4(halfSize, halfSize, 0.0, 0.0));
-  fragment.textureCoordinate = vec2(1.0, 1.0);
-  fragment.color = vertex[0].color;
-  EmitVertex();
-
-  EndPrimitive();
+    mat4 m = al_ProjectionMatrix; // rename to make lines shorter
+    vec4 v = gl_in[0].gl_Position; // al_ModelViewMatrix * gl_Position
+    
+    float r = 0.15;
+    r *= vertex[0].size;
+    
+    gl_Position = m * (v + vec4(-r, -r, 0.0, 0.0));
+    fragment.textureCoordinate = vec2(0.0, 0.0);
+    fragment.color = vertex[0].color;
+    EmitVertex();
+    
+    gl_Position = m * (v + vec4(r, -r, 0.0, 0.0));
+    fragment.textureCoordinate = vec2(1.0, 0.0);
+    fragment.color = vertex[0].color;
+    EmitVertex();
+    
+    gl_Position = m * (v + vec4(-r, r, 0.0, 0.0));
+    fragment.textureCoordinate = vec2(0.0, 1.0);
+    fragment.color = vertex[0].color;
+    EmitVertex();
+    
+    gl_Position = m * (v + vec4(r, r, 0.0, 0.0));
+    fragment.textureCoordinate = vec2(1.0, 1.0);
+    fragment.color = vertex[0].color;
+    EmitVertex();
+    
+    EndPrimitive();
 }
 )";
 
@@ -132,20 +135,25 @@ struct AlloApp : App {
 
     // create a mesh of points scattered randomly with random colors
     //
-      std::vector<float> solarMasses{5483.3, 0.009167, 0.13583, 0.1667, 0.0005, 0.01783, 53.0, 15.833, 2.333, 2.833}; // solar masses / 6
-      std::vector<float> solarDist{0, 0.0067, 0.01167, 0.01667, 0.01179, 0.025, 0.08667, 0.1583, 0.32, 0.40167};                // solar dists / 6
-      std::vector<float> initSpeed{0, 47.87, 35.02, 29.78, 24.07, 3.07, 9.69, 6.81, 5.43};
-    pointMesh.primitive(Mesh::POINTS);
+      // solar system masses, distances and speeds pulled from Wikipedia
+      // then edited to create a stable system
+      std::vector<float> solarMasses{55483.3, 0.009167, 0.13583, 0.1667, 0.0005, 0.01783, 53.0, 15.833, 2.333, 2.833}; // solar masses / 6
+      std::vector<float> solarDist{0, 0.0117, 0.01167, 0.01667, 0.01179, 0.025, 0.08667, 0.1583, 0.22, 0.30167};                // solar dists / 6
+      std::vector<float> initSpeed{0, 8.87, 5.02, 9.78, 4.07, 3.07, 9.69, 6.81, 5.43};
+      pointMesh.primitive(Mesh::POINTS);
       for(int i=0; i<solarMasses.size(); i++){
           mass.push_back(solarMasses[i]);
           pointMesh.vertex(
-                           Vec3f(solarDist[i], i*rnd::uniformS(), i*rnd::uniformS()) );
+                           Vec3f(solarDist[i]/50, rnd::uniformS(), rnd::uniformS()) );
           if(i==0) velocity.push_back(Vec3f(0,0,0));
           else{
-              velocity.push_back(Vec3f(0,initSpeed[i], initSpeed[i]) * 0.005);
+              velocity.push_back(Vec3f(-1, 1, 0).normalize(initSpeed[i]* 0.005) );
               //velocity.push_back(Vec3f(0,0.01,0.01));
           }
-          pointMesh.color(HSV(rnd::uniform(), 1.0, 1.0-i/solarMasses.size()));
+          pointMesh.color(HSV(rnd::uniform(), 1.0, 1.0));
+          if(i==0) pointMesh.texCoord(5.0, 5.0);
+          else if( mass[i]*10 > 3.0) pointMesh.texCoord(3.0, 3.0);
+          else pointMesh.texCoord(mass[i]*10, mass[i]*10);
           
           
       }
@@ -154,15 +162,15 @@ struct AlloApp : App {
           Vec3f(rnd::uniformS(), rnd::uniformS(), rnd::uniformS()) *
           CLOUD_WIDTH);
         velocity.push_back(Vec3f(rnd::uniformS(), rnd::uniformS(), rnd::uniformS()) * 0.01);
-        mass.push_back(rnd::uniform()*0.00000167); // I initialized here so i can connect color to mass (later)
-        pointMesh.color(HSV(rnd::uniform(), 1.0, 0.2));
+        mass.push_back(rnd::uniform()*0.000000167); // I initialized here so i can connect color to mass (later)
+        pointMesh.color(HSV(rnd::uniform(), 1.0, 0.75));
+        pointMesh.texCoord(mass[i]*1000000, mass[i]*1000000);
     }
   }
 
   void onAnimate(double dt) override {
     // put your simulation code here
     //
-
     vector<Vec3f>& vertex(pointMesh.vertices());  // make an alias
 
     // for each pair (i,j)...
@@ -244,7 +252,7 @@ struct AlloApp : App {
 
     texture.bind();
     g.shader(shader);
-    g.shader().uniform("halfSize", 0.5);
+    //g.shader().uniform("halfSize", 0.5);
     g.draw(pointMesh);
     texture.unbind();
   }

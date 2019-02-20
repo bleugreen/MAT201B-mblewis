@@ -8,4 +8,4 @@
 -- Using Cocoa for window creation
 -- Configuring done
 -- Generating done
--- Build files have been written to: /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/build/color_spaces/Release
+-- Build files have been written to: /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/build/color_spaces/Release

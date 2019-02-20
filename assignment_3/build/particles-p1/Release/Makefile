@@ -48,10 +48,10 @@ RM = /usr/local/Cellar/cmake/3.13.3/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/ml/MAT/MAT201b-2019/allolib/cmake/single_file
+CMAKE_SOURCE_DIR = /Users/ml/MAT/MAT201B-2019/allolib/cmake/single_file
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/build/particles-p1/Release
+CMAKE_BINARY_DIR = /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/build/particles-p1/Release
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -126,9 +126,9 @@ install/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/build/particles-p1/Release/CMakeFiles /Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/build/particles-p1/Release/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/build/particles-p1/Release/CMakeFiles /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/build/particles-p1/Release/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/build/particles-p1/Release/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/build/particles-p1/Release/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -205,7 +205,7 @@ al: cmake_check_build_system
 
 # fast build rule for target.
 al/fast:
-	$(MAKE) -f /Users/ml/MAT/MAT201b-2019/allolib/build/Release/CMakeFiles/al.dir/build.make /Users/ml/MAT/MAT201b-2019/allolib/build/Release/CMakeFiles/al.dir/build
+	$(MAKE) -f /Users/ml/MAT/MAT201B-2019/allolib/build/Release/CMakeFiles/al.dir/build.make /Users/ml/MAT/MAT201B-2019/allolib/build/Release/CMakeFiles/al.dir/build
 .PHONY : al/fast
 
 #=============================================================================
@@ -218,7 +218,7 @@ Gamma: cmake_check_build_system
 
 # fast build rule for target.
 Gamma/fast:
-	$(MAKE) -f /Users/ml/MAT/MAT201b-2019/allolib/build/Release/Gamma/CMakeFiles/Gamma.dir/build.make /Users/ml/MAT/MAT201b-2019/allolib/build/Release/Gamma/CMakeFiles/Gamma.dir/build
+	$(MAKE) -f /Users/ml/MAT/MAT201B-2019/allolib/build/Release/Gamma/CMakeFiles/Gamma.dir/build.make /Users/ml/MAT/MAT201B-2019/allolib/build/Release/Gamma/CMakeFiles/Gamma.dir/build
 .PHONY : Gamma/fast
 
 #=============================================================================
@@ -231,7 +231,7 @@ uninstall: cmake_check_build_system
 
 # fast build rule for target.
 uninstall/fast:
-	$(MAKE) -f /Users/ml/MAT/MAT201b-2019/allolib/build/Release/glfw/CMakeFiles/uninstall.dir/build.make /Users/ml/MAT/MAT201b-2019/allolib/build/Release/glfw/CMakeFiles/uninstall.dir/build
+	$(MAKE) -f /Users/ml/MAT/MAT201B-2019/allolib/build/Release/glfw/CMakeFiles/uninstall.dir/build.make /Users/ml/MAT/MAT201B-2019/allolib/build/Release/glfw/CMakeFiles/uninstall.dir/build
 .PHONY : uninstall/fast
 
 #=============================================================================
@@ -244,7 +244,7 @@ glfw: cmake_check_build_system
 
 # fast build rule for target.
 glfw/fast:
-	$(MAKE) -f /Users/ml/MAT/MAT201b-2019/allolib/build/Release/glfw/src/CMakeFiles/glfw.dir/build.make /Users/ml/MAT/MAT201b-2019/allolib/build/Release/glfw/src/CMakeFiles/glfw.dir/build
+	$(MAKE) -f /Users/ml/MAT/MAT201B-2019/allolib/build/Release/glfw/src/CMakeFiles/glfw.dir/build.make /Users/ml/MAT/MAT201B-2019/allolib/build/Release/glfw/src/CMakeFiles/glfw.dir/build
 .PHONY : glfw/fast
 
 #=============================================================================
@@ -257,35 +257,35 @@ glew_s: cmake_check_build_system
 
 # fast build rule for target.
 glew_s/fast:
-	$(MAKE) -f /Users/ml/MAT/MAT201b-2019/allolib/build/Release/glew/CMakeFiles/glew_s.dir/build.make /Users/ml/MAT/MAT201b-2019/allolib/build/Release/glew/CMakeFiles/glew_s.dir/build
+	$(MAKE) -f /Users/ml/MAT/MAT201B-2019/allolib/build/Release/glew/CMakeFiles/glew_s.dir/build.make /Users/ml/MAT/MAT201B-2019/allolib/build/Release/glew/CMakeFiles/glew_s.dir/build
 .PHONY : glew_s/fast
 
-Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/particles-p1.o: Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/particles-p1.cpp.o
+Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/particles-p1.o: Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/particles-p1.cpp.o
 
-.PHONY : Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/particles-p1.o
+.PHONY : Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/particles-p1.o
 
 # target to build an object file
-Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/particles-p1.cpp.o:
-	$(MAKE) -f CMakeFiles/particles-p1.dir/build.make CMakeFiles/particles-p1.dir/Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/particles-p1.cpp.o
-.PHONY : Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/particles-p1.cpp.o
+Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/particles-p1.cpp.o:
+	$(MAKE) -f CMakeFiles/particles-p1.dir/build.make CMakeFiles/particles-p1.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/particles-p1.cpp.o
+.PHONY : Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/particles-p1.cpp.o
 
-Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/particles-p1.i: Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/particles-p1.cpp.i
+Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/particles-p1.i: Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/particles-p1.cpp.i
 
-.PHONY : Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/particles-p1.i
+.PHONY : Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/particles-p1.i
 
 # target to preprocess a source file
-Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/particles-p1.cpp.i:
-	$(MAKE) -f CMakeFiles/particles-p1.dir/build.make CMakeFiles/particles-p1.dir/Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/particles-p1.cpp.i
-.PHONY : Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/particles-p1.cpp.i
+Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/particles-p1.cpp.i:
+	$(MAKE) -f CMakeFiles/particles-p1.dir/build.make CMakeFiles/particles-p1.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/particles-p1.cpp.i
+.PHONY : Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/particles-p1.cpp.i
 
-Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/particles-p1.s: Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/particles-p1.cpp.s
+Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/particles-p1.s: Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/particles-p1.cpp.s
 
-.PHONY : Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/particles-p1.s
+.PHONY : Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/particles-p1.s
 
 # target to generate assembly for a file
-Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/particles-p1.cpp.s:
-	$(MAKE) -f CMakeFiles/particles-p1.dir/build.make CMakeFiles/particles-p1.dir/Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/particles-p1.cpp.s
-.PHONY : Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/particles-p1.cpp.s
+Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/particles-p1.cpp.s:
+	$(MAKE) -f CMakeFiles/particles-p1.dir/build.make CMakeFiles/particles-p1.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/particles-p1.cpp.s
+.PHONY : Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/particles-p1.cpp.s
 
 # Help Target
 help:
@@ -307,9 +307,9 @@ help:
 	@echo "... uninstall"
 	@echo "... glfw"
 	@echo "... glew_s"
-	@echo "... Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/particles-p1.o"
-	@echo "... Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/particles-p1.i"
-	@echo "... Users/ml/MAT/MAT201b-2019/MAT201B-mblewis/assignment_3/particles-p1.s"
+	@echo "... Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/particles-p1.o"
+	@echo "... Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/particles-p1.i"
+	@echo "... Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_3/particles-p1.s"
 .PHONY : help
 
 

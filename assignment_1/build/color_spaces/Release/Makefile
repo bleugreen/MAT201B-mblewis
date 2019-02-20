@@ -51,7 +51,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /Users/ml/MAT/MAT201B-2019/allolib/cmake/single_file
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/build/color_spaces/Release
+CMAKE_BINARY_DIR = /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/build/color_spaces/Release
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -126,9 +126,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/build/color_spaces/Release/CMakeFiles /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/build/color_spaces/Release/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/build/color_spaces/Release/CMakeFiles /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/build/color_spaces/Release/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/build/color_spaces/Release/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/build/color_spaces/Release/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -260,32 +260,32 @@ glew_s/fast:
 	$(MAKE) -f /Users/ml/MAT/MAT201B-2019/allolib/build/Release/glew/CMakeFiles/glew_s.dir/build.make /Users/ml/MAT/MAT201B-2019/allolib/build/Release/glew/CMakeFiles/glew_s.dir/build
 .PHONY : glew_s/fast
 
-Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.o: Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp.o
+Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.o: Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp.o
 
-.PHONY : Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.o
+.PHONY : Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.o
 
 # target to build an object file
-Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp.o:
-	$(MAKE) -f CMakeFiles/color_spaces.dir/build.make CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp.o
-.PHONY : Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp.o
+Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp.o:
+	$(MAKE) -f CMakeFiles/color_spaces.dir/build.make CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp.o
+.PHONY : Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp.o
 
-Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.i: Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp.i
+Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.i: Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp.i
 
-.PHONY : Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.i
+.PHONY : Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.i
 
 # target to preprocess a source file
-Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp.i:
-	$(MAKE) -f CMakeFiles/color_spaces.dir/build.make CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp.i
-.PHONY : Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp.i
+Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp.i:
+	$(MAKE) -f CMakeFiles/color_spaces.dir/build.make CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp.i
+.PHONY : Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp.i
 
-Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.s: Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp.s
+Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.s: Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp.s
 
-.PHONY : Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.s
+.PHONY : Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.s
 
 # target to generate assembly for a file
-Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp.s:
-	$(MAKE) -f CMakeFiles/color_spaces.dir/build.make CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp.s
-.PHONY : Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp.s
+Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp.s:
+	$(MAKE) -f CMakeFiles/color_spaces.dir/build.make CMakeFiles/color_spaces.dir/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp.s
+.PHONY : Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp.s
 
 # Help Target
 help:
@@ -307,9 +307,9 @@ help:
 	@echo "... uninstall"
 	@echo "... glfw"
 	@echo "... glew_s"
-	@echo "... Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.o"
-	@echo "... Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.i"
-	@echo "... Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.s"
+	@echo "... Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.o"
+	@echo "... Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.i"
+	@echo "... Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.s"
 .PHONY : help
 
 

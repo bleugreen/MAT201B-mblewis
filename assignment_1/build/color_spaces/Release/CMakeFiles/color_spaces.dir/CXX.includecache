@@ -6,11 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/color_spaces.cpp
+/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/color_spaces.cpp
 al/core.hpp
-/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/al/core.hpp
+/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/al/core.hpp
 al/util/al_Image.hpp
-/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_2/al/util/al_Image.hpp
+/Users/ml/MAT/MAT201B-2019/MAT201B-mblewis/assignment_1/al/util/al_Image.hpp
 
 /Users/ml/MAT/MAT201B-2019/allolib/external/glew/build/cmake/../../include/GL/glew.h
 stddef.h
