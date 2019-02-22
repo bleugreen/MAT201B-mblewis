@@ -35,3 +35,6 @@
 *.exe
 *.out
 *.app
+
+# Metadata
+*.DS_Store
