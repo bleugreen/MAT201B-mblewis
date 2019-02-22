@@ -1,9 +1,12 @@
+// sound-lines - a simple spectrogram-like output of a sampled audio clip
+// Mitchell Lewis, 2-20-19
+
+
 #include "al/core.hpp"
 using namespace al;
 
 #include "Gamma/DFT.h"
 #include "Gamma/SamplePlayer.h"
-//#include "Gamma/AudioIO.h"
 using namespace gam;
 
 #include <vector>
@@ -117,8 +120,11 @@ struct AlloApp : App {
     gam::SamplePlayer<float, gam::ipl::Linear, gam::phsInc::Loop> samplePlayer;
     gam::STFT stft;
     AudioIO audio;
-    //gam::AudioDevice audioDevice;
+
     vector<float> spectrum;
+    
+    // measures magnitude of each band and records it as a distance\
+    // also keeps track of max value per band for normalization
     vector<float> pointDist;
     vector<float> max;
 
@@ -131,11 +137,6 @@ struct AlloApp : App {
         
         spectrum.resize(stft.numBins() * 1024);
         int n = stft.numBins();
-        
-        int blockSize = 64;                // how many samples per block?
-        float sampleRate = 44100;        // sampling rate (samples/second)
-        int outputChannels = 2;            // how many output channels to open
-        int inputChannels = 1;            // how many input channels to open
         
         
         // use a texture to control the alpha channel of each particle
@@ -164,6 +165,8 @@ struct AlloApp : App {
         //
         pointMesh.primitive(Mesh::LINE_STRIP);
         for (int i = 0; i < N; i++) {
+            
+            //plots points from -5 to 5
             float xCoord = -5 + ((float)i / N)*10;
             pointMesh.vertex(Vec3f(xCoord, 0, 0));
             pointDist.push_back(0);
@@ -180,15 +183,21 @@ struct AlloApp : App {
         while (io()) {
             if (stft(samplePlayer())) {
                 for (int i = 0; i < pointDist.size(); ++i) {
+                    // record magnitude of band
                     float dist = stft.bin(i).norm() * pow(10, 4);
+                    
+                    // adjust distance by pre-set values to facilitate smooth motion
                     if(dist > pointDist[i]) pointDist[i] += 0.1;
                     else pointDist[i] -= 0.05;
+                    
+                    // update max if necessary
                     if(dist > max[i]) max[i]  = dist;
                     
                     
                 }
             }
             
+            // output the current audio frame
             float f = samplePlayer.read(0);
             io.out(0) = f;
             io.out(1) = f;
@@ -196,9 +205,8 @@ struct AlloApp : App {
     }
     
     void onAnimate(double dt) override {
-        // put your simulation code here
-        //
         
+        // plots band levels along x-axis
         vector<Vec3f>& vertex(pointMesh.vertices());  // make an alias
         for(int i=0; i<vertex.size(); i++){
             vertex[i].y =  10 * (pointDist[i] / max[i]);
@@ -215,6 +223,8 @@ struct AlloApp : App {
         g.depthTesting(false);
         g.blending(true);
         g.blendModeTrans();
+        
+        // removed point shader to use lines
         
         //texture.bind();
         //g.shader(shader);
