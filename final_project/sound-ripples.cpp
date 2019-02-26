@@ -51,7 +51,7 @@ struct AlloApp : App {
     float heightScale = 3;
     float rippleScale = 10;
     float rectWidth, eqRectWidth;
-    bool analyzeInput = true; // if true: analyze input channel, else: analyze sample
+    bool analyzeInput = false; // if true: analyze input channel, else: analyze sample
     bool displayMode = false;  // true: show equal-width rectangle bands, false: show all bands
     
     void onCreate() override {
@@ -89,14 +89,14 @@ struct AlloApp : App {
         if(data.x == 0) return;
         
         Mesh m{Mesh::LINE_LOOP};
-        m.vertex(Vec2f(0, -data.x));
-        m.vertex(Vec2f(data.x/1.5, -data.x/1.5));
-        m.vertex(Vec2f(data.x, 0));
-        m.vertex(Vec2f(data.x/1.5, data.x/1.5));
-        m.vertex(Vec2f(0, data.x));
-        m.vertex(Vec2f(-data.x/1.5, data.x/1.5));
-        m.vertex(Vec2f(-data.x, 0));
-        m.vertex(Vec2f(-data.x/1.5, -data.x/1.5));
+        m.vertex(Vec3f(0, -data.x, data.x-4));
+        m.vertex(Vec3f(data.x/1.5, -data.x/1.5, data.x-4));
+        m.vertex(Vec3f(data.x, 0, data.x-4));
+        m.vertex(Vec3f(data.x/1.5, data.x/1.5, data.x-4));
+        m.vertex(Vec3f(0, data.x, data.x-4));
+        m.vertex(Vec3f(-data.x/1.5, data.x/1.5, data.x-4));
+        m.vertex(Vec3f(-data.x, 0, data.x-4));
+        m.vertex(Vec3f(-data.x/1.5, -data.x/1.5, data.x-4));
         g.color( HSV(data.y, data.z, data.z) );
         g.draw(m);
     }
