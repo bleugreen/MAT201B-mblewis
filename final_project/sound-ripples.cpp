@@ -8,8 +8,10 @@
 #include "Gamma/DFT.h"
 #include "Gamma/SamplePlayer.h"
 
+#ifdef BUILD_VR
 #include "module/openvr/al_VRApp.hpp"
-
+#define App VRApp
+#endif
 
 using namespace al;
 using namespace gam;
@@ -27,7 +29,7 @@ using namespace std;
 // --------------------------------------------------------------------------------------------------------------------------------------
 
 
-struct AlloApp : VRApp {
+struct AlloApp : App {
     ShaderProgram shader;
     Texture texture;
     
@@ -209,7 +211,9 @@ struct AlloApp : VRApp {
         g.depthTesting(false);
         g.blending(true);
         g.blendModeTrans();
+#ifdef BUILD_VR
         g.translate(0, 1.0, -1.0);
+#endif
         
         for(int i=0; i<ripples.size(); i++){
             rippleDraw(g, ripples[i]);
