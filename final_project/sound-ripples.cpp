@@ -1,15 +1,19 @@
 // sound-lines - a simple spectrogram-like output of a sampled audio clip
 // Mitchell Lewis, 2-20-19
 
+#include <vector>
 
 #include "al/core.hpp"
-using namespace al;
 
 #include "Gamma/DFT.h"
 #include "Gamma/SamplePlayer.h"
+
+#include "module/openvr/al_VRApp.hpp"
+
+
+using namespace al;
 using namespace gam;
 
-#include <vector>
 using namespace std;
 
 #define N (513)  // number of particles
@@ -23,7 +27,7 @@ using namespace std;
 // --------------------------------------------------------------------------------------------------------------------------------------
 
 
-struct AlloApp : App {
+struct AlloApp : VRApp {
     ShaderProgram shader;
     Texture texture;
     
@@ -56,7 +60,9 @@ struct AlloApp : App {
     
     void onCreate() override {
         if(!analyzeInput){
-            samplePlayer.load("../sound/9.wav");
+            if (!samplePlayer.load("../sound/9.wav")) {
+                std::cerr << "File not found" << std::endl;
+            }
             samplePlayer.loop();
         }
         Sync::master().spu(audioIO().fps());
@@ -199,10 +205,11 @@ struct AlloApp : App {
     
     void onDraw(Graphics& g) override {
         g.clear(0.23);
-        
+        g.pushMatrix();
         g.depthTesting(false);
         g.blending(true);
         g.blendModeTrans();
+        g.translate(0, 1.0, -1.0);
         
         for(int i=0; i<ripples.size(); i++){
             rippleDraw(g, ripples[i]);
@@ -215,6 +222,7 @@ struct AlloApp : App {
             rect(g, x, x2, bandDist[i]/3, progress);
             x = x2;
         }
+        g.popMatrix();
         
     }
     
