@@ -40,17 +40,16 @@ struct AlloApp : App {
     vector<float> bandDist;
     vector<float> max;
     
-    vector<float> pointDist;
-    vector<float> pointMax;
+    vector<vector<float>> waves;
+    float waveWidth = 1000;
+    float waveHeight = 5;
+    float xWidth = 10;
+    float zWidth = 10;
+    float waveRadius = 5;
     
-    vector<Vec3f> ripples;
     
     vector<int> bandWidths{ 2,2,2,2,2,3,3,3,3,4,4,5,6,7,8,10,12,15,19,23,28,38,53,75,90,94 }; // Bark Scale - # of stft bands per Bark band
-    float incAmount = 0.5;
-    float decAmount = 0.25;
-    float heightScale = 3;
-    float rippleScale = 10;
-    float rectWidth, eqRectWidth;
+    float heightScale = 10;
     bool analyzeInput = false; // if true: analyze input channel, else: analyze sample
     bool displayMode = false;  // true: show equal-width rectangle bands, false: show all bands
     
@@ -62,71 +61,101 @@ struct AlloApp : App {
         Sync::master().spu(audioIO().fps());
         
         int n = bandWidths.size();
-        rectWidth = DISP_WIDTH / stft.numBins();
-        eqRectWidth = DISP_WIDTH / bandWidths.size();
+
         
         for(int i=0; i<n; i++){
             bandDist.push_back(0);
             max.push_back(0.1);
-        }
-        
-        for(int i=0; i<stft.numBins(); i++){
-            pointDist.push_back(0);
-            pointMax.push_back(0.1);
             
+            vector<float> wave;
+            for(int j=0; j<waveWidth; j++){
+                wave.push_back(0);
+            }
+            waves.push_back(wave);
         }
-        
-        nav().pos(0, 0, 40); // place the viewer at z=40
-        
         
 
     }
-    
-    void rippleDraw(Graphics& g, Vec3f data){
-        // data.x = ripple radius
-        // data.y = ripple color
-        // data.z = ripple value
+
+    void drawWaves(Graphics& g, vector<vector<float>> waves){
         
-        if(data.x == 0) return;
         
-        Mesh m{Mesh::LINE_LOOP};
-        m.vertex(Vec3f(0, -data.x, data.x-4));
-        m.vertex(Vec3f(data.x/1.5, -data.x/1.5, data.x-4));
-        m.vertex(Vec3f(data.x, 0, data.x-4));
-        m.vertex(Vec3f(data.x/1.5, data.x/1.5, data.x-4));
-        m.vertex(Vec3f(0, data.x, data.x-4));
-        m.vertex(Vec3f(-data.x/1.5, data.x/1.5, data.x-4));
-        m.vertex(Vec3f(-data.x, 0, data.x-4));
-        m.vertex(Vec3f(-data.x/1.5, -data.x/1.5, data.x-4));
-        g.color( HSV(data.y, data.z, data.z) );
-        g.draw(m);
+        for(int i=0; i<waves.size(); i++){
+            Mesh m{Mesh::LINE_STRIP};
+            float wavePercent = 1 - (float) (i+1) / waves.size();  //
+            for(int j=0; j<waves[i].size(); j++){
+                float valPercent = (float) j / waves[i].size();
+                float val = waves[i][j];
+                
+                float x = (waveRadius + wavePercent*xWidth)*cos(valPercent*2*M_PI);
+                float z = (waveRadius + wavePercent*xWidth)*sin(valPercent*2*M_PI);
+                
+                float y = val*waveHeight + (wavePercent*5);
+                
+                m.vertices().push_back( Vec3f(x, val*waveHeight, z) );
+                m.color( HSV(wavePercent, val, val) );
+                
+            }
+            g.meshColor();
+            g.draw(m);
+        }
+        
     }
     
-    void rect(Graphics& g, float x1, float x2, float height, float progress){
+    
+    float radius = 4.0;
+    void pillar(Graphics& g, float height, float angle){
         if(height == 0) return;
         
-        float centerX1 = x1 - DISP_WIDTH/2;
-        float centerX2 = x2 - DISP_WIDTH/2;
+        float color = abs(angle/M_PI);
+        if(angle < 0) color = 1 - color;
         
-        Mesh m{Mesh::TRIANGLE_FAN};
-        m.vertex(Vec2f(centerX1, -height));
-        m.vertex(Vec2f(centerX2, -height));
-        m.vertex(Vec2f(centerX2, height));
-        m.vertex(Vec2f(centerX1, height));
-        g.color( HSV(progress, abs(2*height/heightScale), abs(2*height/heightScale)) );
+        Vec3f bandCenter(radius*cos(angle), 0, radius*sin(angle));
+        Vec3f bandCross = bandCenter.cross(Vec3f(0, 1, 0));
+        
+        Vec3f vertexA = (bandCenter + bandCenter/10) - (bandCross/20);
+        Vec3f vertexB = (bandCenter + bandCenter/10) + (bandCross/20);
+        Vec3f vertexC = (bandCenter - bandCenter/10) - (bandCross/20);
+        Vec3f vertexD = (bandCenter - bandCenter/10) + (bandCross/20);
+        
+        Vec3f vertexE = vertexA + Vec3f(0, height*radius, 0);
+        Vec3f vertexF = vertexB + Vec3f(0, height*radius, 0);
+        Vec3f vertexG = vertexC + Vec3f(0, height*radius, 0);
+        Vec3f vertexH = vertexD + Vec3f(0, height*radius, 0);
+        //cout << vertexA  << vertexD << endl;
+        
+        Mesh m{Mesh::TRIANGLE_STRIP};
+        m.vertex(vertexA);
+        m.vertex(vertexE);
+        m.vertex(vertexF);
+        m.vertex(vertexB);
+        m.vertex(vertexA);
+        
+        m.vertex(vertexE);
+        m.vertex(vertexG);
+        m.vertex(vertexC);
+        
+        m.vertex(vertexA);
+        m.vertex(vertexB);
+        m.vertex(vertexD);
+        
+        m.vertex(vertexH);
+        m.vertex(vertexF);
+        m.vertex(vertexB);
+        
+        m.vertex(vertexD);
+        m.vertex(vertexH);
+        m.vertex(vertexG);
+        
+        m.vertex(vertexC);
+        m.vertex(vertexD);
+        m.vertex(vertexA);
+        
+        
+        
+        g.color( HSV(color, abs(height), abs(height)) );
         g.draw(m);
     }
-
-    void line(Graphics& g, float x, float height){
-        float centerX = x - DISP_WIDTH/2;
-        
-        Mesh m{Mesh::LINE_LOOP};
-        m.vertex(Vec2f(centerX, -height));
-        m.vertex(Vec2f(centerX, height));
-        g.color( HSV((x/DISP_WIDTH), abs(4*height/heightScale), abs(4*height/heightScale)) );
-        g.draw(m);
-    }
-    
 
     
     void onSound(AudioIOData& io) override {
@@ -150,18 +179,6 @@ struct AlloApp : App {
                     // for each STFT band
                     for(int j=0; j<bandWidths[i]; j++){
                         barkSum += stft.bin(currentBand).norm() * 1000;
-                        
-                        // calculate height of band
-                        float pDist = stft.bin(currentBand).norm() * 1000;
-                        
-                        // update max if necessary
-                        if(pDist > pointMax[currentBand]) pointMax[currentBand] = pDist;
-                        
-                        float pDistRatio = heightScale * pDist/pointMax[currentBand];
-                        
-                        // set point distance to normalized band amplitude
-                        pointDist[currentBand] += (pDistRatio - pointDist[currentBand])/(heightScale*2);
-                        
                         currentBand++;
                     }
                     
@@ -170,17 +187,11 @@ struct AlloApp : App {
                     
                     // update max if necessary
                     if(dist > max[i]) max[i] = dist;
-                    float distRatio = rippleScale * dist/max[i];
+                    float distRatio = dist/max[i];
                     
                     // set point distance to normalized band amplitude
-                    float changeVal = (distRatio - bandDist[i])/(rippleScale);
-                     bandDist[i] += changeVal/2;
-                    
-                    if(changeVal > 0.25){
-                        float color = (float)i / bandDist.size();
-                        float value = 0.5*( changeVal ) + 0.5;
-                        ripples.push_back(Vec3f(4, color, value));
-                    }
+                    float changeVal = (distRatio - bandDist[i]);
+                    bandDist[i] += changeVal/20;
                     
                 }
             }
@@ -188,33 +199,25 @@ struct AlloApp : App {
     }
     
     void onAnimate(double dt) override {
-        if(ripples.size() > 300) ripples.erase(ripples.begin()+1);
-        for(int i=0; i<ripples.size(); i++){
-            if(ripples[i].z < 0.25) ripples.erase(ripples.begin()+i);
-            else {
-                ripples[i].x += ripples[i].z / 10;
-                ripples[i].z -= (ripples[i].z / rippleScale) / 10;
-            }
+        for(int i=0; i<waves.size(); i++){
+            waves[i].pop_back();
+            waves[i].insert(waves[i].begin(), bandDist[i]);
         }
     }
     
     void onDraw(Graphics& g) override {
-        g.clear(0.23);
+        g.clear(0);
         
         g.depthTesting(false);
         g.blending(true);
         g.blendModeTrans();
         
-        for(int i=0; i<ripples.size(); i++){
-            rippleDraw(g, ripples[i]);
-        }
+        drawWaves(g, waves);
         
-        float x = 0;
         for(int i=0; i<bandWidths.size(); i++){
-            float progress = (float)i /bandWidths.size();
-            float x2 = x+(eqRectWidth);
-            rect(g, x, x2, bandDist[i]/3, progress);
-            x = x2;
+            float angle = i * (M_PI / bandWidths.size());
+            pillar(g,bandDist[i], angle);
+            pillar(g,bandDist[bandDist.size()-1-i], -angle);
         }
         
     }
