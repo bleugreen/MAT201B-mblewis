@@ -63,7 +63,7 @@ struct AlloApp : App {
         int n = bandWidths.size();
 
         
-        for(int i=0; i<n; i++){
+        for(int i=0; i<N; i++){
             bandDist.push_back(0);
             max.push_back(0.1);
             
@@ -74,6 +74,10 @@ struct AlloApp : App {
             waves.push_back(wave);
         }
         
+        //Vec3d(0.000000, 17.495046, 46.419401);
+        //Quatd(0.987681, -0.156482, 0.000000, 0.000000);
+        nav().pos(0.000000, 17.495046, 46.419401);
+        nav().quat(Quatd(0.987681, -0.156482, 0.000000, 0.000000));
 
     }
 
@@ -203,6 +207,9 @@ struct AlloApp : App {
             waves[i].pop_back();
             waves[i].insert(waves[i].begin(), bandDist[i]);
         }
+        
+        //nav().print();
+        
     }
     
     void onDraw(Graphics& g) override {
@@ -212,7 +219,7 @@ struct AlloApp : App {
         g.blending(true);
         g.blendModeTrans();
         
-        drawWaves(g, waves);
+        //drawWaves(g, waves);
         
         for(int i=0; i<bandWidths.size(); i++){
             float angle = i * (M_PI / bandWidths.size());
