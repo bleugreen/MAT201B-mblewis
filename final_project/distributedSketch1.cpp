@@ -79,6 +79,14 @@ public:
 
     
     virtual void onCreate() override {
+        
+        if(role() == ROLE_RENDERER){
+            
+            parameterServer().verbose();
+            load_perprojection_configuration();
+            cursorHide(true);
+        }
+        
         samplePlayer.load("../sound/BigSmoke.wav");
         //samplePlayer.loop();
         Sync::master().spu(audioIO().fps());
