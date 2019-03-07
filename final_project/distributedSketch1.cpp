@@ -32,11 +32,19 @@ gam::SamplePlayer<float, gam::ipl::Linear, gam::phsInc::Loop> samplePlayer;
 gam::STFT stft;
 
 std::vector<int> bandWidths{ 2,2,2,2,2,3,3,3,3,4,4,5,6,7,8,10,12,15,19,23,28,38,53,75,90,94 }; // Bark Scale - # of stft bands per Bark band
-std::vector<float> bandDist;
 std::vector<float> bandMax;
 
 std::vector<Mesh> pillars;
-float pillarRadius = 10.0;
+float pillarRadius = 4.0;
+
+vector<vector<float>> waves;
+float waveWidth = 2000;
+float waveHeight = 5.0;
+float waveRadius = 30.0;
+float waveInnerRadius = 5.0;
+
+bool analysisOn = true;
+
 
 // -----------------------------------------------------------------------
 //  Utility
@@ -46,16 +54,6 @@ struct SharedState {
     float soundVals[N];
 };
 
-string slurp(string fileName) {
-    fstream file(fileName);
-    string returnValue = "";
-    while (file.good()) {
-        string line;
-        getline(file, line);
-        returnValue += line + "\n";
-    }
-    return returnValue;
-}
 
 // -----------------------------------------------------------------------
 //  App Start
@@ -75,14 +73,25 @@ public:
       
     }
     
+// -----------------------------------------------------------------------
+//  Create
+// -----------------------------------------------------------------------
+
+    
     virtual void onCreate() override {
-        samplePlayer.load("../sound/10.wav");
-        samplePlayer.loop();
+        samplePlayer.load("../sound/BigSmoke.wav");
+        //samplePlayer.loop();
         Sync::master().spu(audioIO().fps());
         
         for(int i=0; i<N; i++){
-            bandDist.push_back(0);
+            state().soundVals[i] = 0;
             bandMax.push_back(0.1);
+            
+            vector<float> wave;
+            for(int j=0; j<waveWidth; j++){
+                wave.push_back(0.1);
+            }
+            waves.push_back(wave);
         }
         
         createPillars();
@@ -92,22 +101,6 @@ public:
         nav().quat(Quatd(0.987681, -0.156482, 0.000000, 0.000000));
 
     }
-
-    virtual void onDraw(Graphics &g) override {
-        if (role() == ROLE_RENDERER || role() == ROLE_DESKTOP) {
-            g.clear(0);
-            
-            g.depthTesting(true);
-            g.blending(true);
-            g.blendModeTrans();
-            
-            //drawWaves(g, waves);
-            
-            drawPillars(g, state().soundVals);
-        }
-    }
-    
-    
     
     void createPillars(){
         for(int i=0; i<2*N; i++){
@@ -159,6 +152,24 @@ public:
         }
     }
     
+// -----------------------------------------------------------------------
+//  Draw
+// -----------------------------------------------------------------------
+
+    
+    virtual void onDraw(Graphics &g) override {
+        if (role() == ROLE_RENDERER || role() == ROLE_DESKTOP) {
+            g.clear(0);
+            
+            g.depthTesting(true);
+            g.blending(true);
+            g.blendModeTrans();
+            
+            drawWaves(g, waves);
+            drawPillars(g, state().soundVals);
+        }
+    }
+    
     void drawPillars(Graphics& g, float soundVals[]){
         for(int i=0; i<2*N; i++){
             float height, color;
@@ -189,18 +200,63 @@ public:
             pillars[i].vertices()[15].y = pillarRadius*height;
             pillars[i].vertices()[16].y = pillarRadius*height;
             
-            g.color( HSV(color, abs(height), abs(height)) );
+            g.color( HSV(color, height, height) );
+            g.pushMatrix();
+            //g.rotate(180, 0, 0, 1); // translates/rotates s.t. pillars are above and extend down
+            //g.translate(0, -10, 0);
             g.draw(pillars[i]);
+            g.popMatrix();
+            
             
         }
     }
     
+    void drawWaves(Graphics& g, vector<vector<float>> waves){
+        for(int i=0; i<waves.size(); i++){
+            Mesh m{Mesh::LINE_LOOP};
+            float wavePercent = 1 - (float) (i+1) / waves.size();
+            for(int j=0; j<waves[i].size(); j++){
+                float valPercent = (float) j / waves[i].size();
+                float val = waves[i][j];
+                
+                float x = (waveInnerRadius + wavePercent*waveRadius)*cos(valPercent*2*M_PI);
+                float z = (waveInnerRadius + wavePercent*waveRadius)*sin(valPercent*2*M_PI);
+                
+                float y = val*waveHeight + (5*wavePercent*waveHeight);
+                
+                m.vertices().push_back( Vec3f(x, y, z) );
+                m.color( HSV(wavePercent, val, val) );
+                
+            }
+            
+            
+            g.meshColor();
+            g.draw(m);
+            
+        }
+    }
+    
+// -----------------------------------------------------------------------
+//  Animate
+// -----------------------------------------------------------------------
+
+    void onAnimate(double dt) override {
+        for(int i=0; i<waves.size(); i++){
+            waves[i].pop_back();
+            waves[i].insert(waves[i].begin(), state().soundVals[i]);
+            
+        }
+    }
+    
+// -----------------------------------------------------------------------
+//  Sound
+// -----------------------------------------------------------------------
+
     
     virtual void onSound(AudioIOData &io) override {
         if (role() == ROLE_AUDIO || role() == ROLE_DESKTOP) {
             // Audio will recieve state from simulator
-            while (io()) {
-
+            while (io() && analysisOn) {
                 if (stft(samplePlayer())){
                     int currentBand = 0;
                     
@@ -208,29 +264,27 @@ public:
                     for(int i=0; i<bandWidths.size(); i++){
                         float barkSum = 0;
                         
-                        // for each STFT band
+                        // sums each FFT band [j] within Bark band [i]
                         for(int j=0; j<bandWidths[i]; j++){
                             barkSum += stft.bin(currentBand).norm() * 1000;
                             currentBand++;
                         }
                         
-                        // calculate mean height of Bark band
+                        // calculate mean amplitude of Bark band
                         float dist = barkSum / bandWidths[i];
                         
                         // update max if necessary
                         if(dist > bandMax[i]) bandMax[i] = dist;
+                        
+                        // create ratio of current amplitude to max amplitude
                         float distRatio = dist/bandMax[i];
                         
-                        // set point distance to normalized band amplitude
-                        float changeVal = (distRatio - bandDist[i]);
-                        bandDist[i] += changeVal/20;
-                        
-                        state().soundVals[i] = bandDist[i];
-                        
-                        
+                        // move soundVals[i] incrementally according to distance from current band amplitude
+                        float changeVal = (distRatio - state().soundVals[i]);
+                        if(changeVal > -2 && changeVal < 2){
+                            state().soundVals[i] += changeVal/20;
+                        }
                     }
-                    
-                    
                 }
                 
                 float f = samplePlayer.read(0);
@@ -239,6 +293,15 @@ public:
             }
         }
     }
+    
+    void onKeyDown(const Keyboard& k) override {
+        if (k.key() == ' ') {
+            analysisOn = !analysisOn;
+            samplePlayer.reset();
+        }
+    }
+    
+    
 
 };
 
@@ -248,12 +311,6 @@ int main(){
     app.startFPS();
     app.print();
     app.initAudio();
-    for (int i = 0; i < 10; i++) {
-        if (app.isPrimary()) {
-            std::cout << " Run " << i << " ---------------" <<std::endl;
-        }
-        app.simulate(0);
-    }
     app.start();
     return 0;
 }

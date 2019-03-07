@@ -50,7 +50,7 @@ struct AlloApp : App {
     
     vector<int> bandWidths{ 2,2,2,2,2,3,3,3,3,4,4,5,6,7,8,10,12,15,19,23,28,38,53,75,90,94 }; // Bark Scale - # of stft bands per Bark band
     float heightScale = 10;
-    bool analyzeInput = false; // if true: analyze input channel, else: analyze sample
+    bool analyzeInput = true; // if true: analyze input channel, else: analyze sample
     bool displayMode = false;  // true: show equal-width rectangle bands, false: show all bands
     
     void onCreate() override {
@@ -83,8 +83,6 @@ struct AlloApp : App {
     }
 
     void drawWaves(Graphics& g, vector<vector<float>> waves){
-        
-        
         for(int i=0; i<waves.size(); i++){
             Mesh m{Mesh::LINE_STRIP};
             float wavePercent = 1 - (float) (i+1) / waves.size();  //
@@ -104,7 +102,6 @@ struct AlloApp : App {
             g.meshColor();
             g.draw(m);
         }
-        
     }
     
     
@@ -208,9 +205,6 @@ struct AlloApp : App {
             waves[i].pop_back();
             waves[i].insert(waves[i].begin(), bandDist[i]);
         }
-        
-        //nav().print();
-        
     }
     
     void onDraw(Graphics& g) override {
