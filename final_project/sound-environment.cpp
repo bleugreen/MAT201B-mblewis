@@ -55,15 +55,16 @@ struct AlloApp : App {
     
     void onCreate() override {
         if(!analyzeInput){
-            samplePlayer.load("../sound/9.wav");
+            samplePlayer.load("../sound/10.wav");
             samplePlayer.loop();
         }
         Sync::master().spu(audioIO().fps());
+        audioIO().print();
         
         int n = bandWidths.size();
 
         
-        for(int i=0; i<N; i++){
+        for(int i=0; i<n; i++){
             bandDist.push_back(0);
             max.push_back(0.1);
             
@@ -166,7 +167,7 @@ struct AlloApp : App {
         vector<Vec3f>& vertex(pointMesh.vertices());
         while (io()) {
             float s;
-            if(analyzeInput) s = io.in(0);
+            if(analyzeInput) s = io.in(1);
             else {
                 s = samplePlayer();
                 float f = samplePlayer.read(0);
@@ -215,11 +216,11 @@ struct AlloApp : App {
     void onDraw(Graphics& g) override {
         g.clear(0);
         
-        g.depthTesting(false);
+        g.depthTesting(true);
         g.blending(true);
         g.blendModeTrans();
         
-        //drawWaves(g, waves);
+        drawWaves(g, waves);
         
         for(int i=0; i<bandWidths.size(); i++){
             float angle = i * (M_PI / bandWidths.size());
@@ -247,7 +248,7 @@ struct AlloApp : App {
 int main() {
     AlloApp app;
     if(app.getAnalysisMode()){
-        app.initAudio(44100, 512, -1,-1,3);
+        app.initAudio(44100, 512, -1,-1, 3);
     }
     else{
         app.initAudio();
