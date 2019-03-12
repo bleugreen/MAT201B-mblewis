@@ -74,11 +74,11 @@ class DistributedExampleApp : public DistributedApp<SharedState> {
   // -----------------------------------------------------------------------
 
   virtual void onCreate() override {
-    if (role() == ROLE_RENDERER) {
-      parameterServer().verbose();
-      load_perprojection_configuration();
-      cursorHide(true);
-    }
+    //if (role() == ROLE_RENDERER) {
+    //  parameterServer().verbose();
+    //  load_perprojection_configuration();
+    //  cursorHide(true);
+    //}
 
     samplePlayer.load("../sound/BigSmoke.wav");
     // samplePlayer.loop();
@@ -153,7 +153,7 @@ class DistributedExampleApp : public DistributedApp<SharedState> {
   // -----------------------------------------------------------------------
 
   virtual void onDraw(Graphics& g) override {
-    if (role() == ROLE_RENDERER || role() == ROLE_DESKTOP) {
+    if (hasRole(ROLE_RENDERER) || hasRole(ROLE_DESKTOP) || hasRole(ROLE_SIMULATOR)) {
       g.clear(0);
 
       g.depthTesting(true);
@@ -296,7 +296,9 @@ int main() {
   // app.fps(1);
   app.startFPS();
   app.print();
-  if (app.role() != app.ROLE_RENDERER) app.initAudio();
+  AudioDevice()::printAll();
+  app.audioIO().device(AudioDevice("ECHO XS"));
+  app.initAudio();
   app.start();
   return 0;
 }
