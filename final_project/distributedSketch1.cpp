@@ -1,11 +1,10 @@
 /*
-Example: DistributedApp
-
-Description:
-Demontration of basic usage of the DistributedApp class
-
-Author:
-Andres Cabrera 2/2018
+Distributed Sketch 1
+ 
+Demo of final project for MAT201B
+ by Mitchell Lewis
+ 
+Adapted from DistributedApp by Andres Cabrera
 */
 
 #include <stdio.h>
@@ -297,7 +296,7 @@ int main() {
   // app.fps(1);
   app.startFPS();
   app.print();
-  if (role() != ROLE_RENDERER) app.initAudio();
+  if (app.role() != app.ROLE_RENDERER) app.initAudio();
   app.start();
   return 0;
 }
