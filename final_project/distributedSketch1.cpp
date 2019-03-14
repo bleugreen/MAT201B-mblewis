@@ -1,9 +1,9 @@
 /*
 Distributed Sketch 1
- 
+
 Demo of final project for MAT201B
  by Mitchell Lewis
- 
+
 Adapted from DistributedApp by Andres Cabrera
 */
 
@@ -45,14 +45,13 @@ float waveInnerRadius = 5.0;
 
 bool analysisOn = true;
 
-
 // -----------------------------------------------------------------------
 //  Utility
 // -----------------------------------------------------------------------
 
 struct SharedState {
   float soundVals[N];
-    Pose pose;
+  Pose pose;
 };
 
 // -----------------------------------------------------------------------
@@ -63,9 +62,8 @@ class DistributedExampleApp : public DistributedApp<SharedState> {
  public:
   // The simulate function is only run for the simulator
   virtual void simulate(double dt) override {
-    
-      state().pose = nav();
-
+    //
+    state().pose = nav();
   }
 
   // -----------------------------------------------------------------------
@@ -73,11 +71,11 @@ class DistributedExampleApp : public DistributedApp<SharedState> {
   // -----------------------------------------------------------------------
 
   virtual void onCreate() override {
-    // if (role() == ROLE_RENDERER) {
-    //   parameterServer().verbose();
-    //   load_perprojection_configuration();
-    //   cursorHide(true);
-    // }
+    if (hasRole(ROLE_RENDERER)) {
+      parameterServer().verbose();
+      load_perprojection_configuration();
+      cursorHide(true);
+    }
 
     samplePlayer.load("../sound/BigSmoke.wav");
     // samplePlayer.loop();
@@ -152,19 +150,9 @@ class DistributedExampleApp : public DistributedApp<SharedState> {
   // -----------------------------------------------------------------------
 
   virtual void onDraw(Graphics& g) override {
-    if (hasRole(ROLE_RENDERER) || hasRole(ROLE_DESKTOP) || hasRole(ROLE_SIMULATOR)) {
-    //if (role() == ROLE_DESKTOP) {
-      g.clear(0);
-
-      g.depthTesting(true);
-      g.blending(true);
-      g.blendModeTrans();
-
-      drawWaves(g, waves);
-      drawPillars(g, state().soundVals);
-    }
-      
-      
+    if (hasRole(ROLE_RENDERER) || hasRole(ROLE_DESKTOP) ||
+        hasRole(ROLE_SIMULATOR)) {
+ 
        g.clear(0.1);
        g.pointSize(30);
        g.depthTesting(true);
@@ -173,11 +161,10 @@ class DistributedExampleApp : public DistributedApp<SharedState> {
        
        drawWaves(g, waves);
        drawPillars(g, state().soundVals);
-       }
-       
+    }
 
-      
-      
+  }
+
   void drawPillars(Graphics& g, float soundVals[]) {
     for (int i = 0; i < 2 * N; i++) {
       float height, color;
@@ -246,13 +233,12 @@ class DistributedExampleApp : public DistributedApp<SharedState> {
   // -----------------------------------------------------------------------
 
   void onAnimate(double dt) override {
-    
-      if (hasRole(ROLE_RENDERER)) {
-      //if (role() == ROLE_RENDERER) {
-          pose() = state().pose;
-      }
-      
-      for (int i = 0; i < waves.size(); i++) {
+    if (hasRole(ROLE_RENDERER)) {
+      // if (role() == ROLE_RENDERER) {
+      pose() = state().pose;
+    }
+
+    for (int i = 0; i < waves.size(); i++) {
       waves[i].pop_back();
       waves[i].insert(waves[i].begin(), state().soundVals[i]);
     }
