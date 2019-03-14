@@ -297,6 +297,7 @@ class DistributedExampleApp : public DistributedApp<SharedState> {
 
 int main() {
   DistributedExampleApp app;
+  app.displayMode(app.displayMode() | Window::STEREO_BUF);
   // app.fps(1);
   app.startFPS();
   app.print();
