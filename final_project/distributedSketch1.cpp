@@ -175,7 +175,6 @@ class DistributedExampleApp : public DistributedApp<SharedState> {
        drawPillars(g, state().soundVals);
        }
        
-  }
 
       
       
