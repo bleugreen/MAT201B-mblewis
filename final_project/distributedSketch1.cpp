@@ -165,8 +165,8 @@ class DistributedExampleApp : public DistributedApp<SharedState> {
     }
       
       
-       g.clear(0);
-       
+       g.clear(0.1);
+       g.pointSize(30);
        g.depthTesting(true);
        g.blending(true);
        g.blendModeTrans();
