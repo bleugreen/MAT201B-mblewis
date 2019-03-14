@@ -45,12 +45,14 @@ float waveInnerRadius = 5.0;
 
 bool analysisOn = true;
 
+
 // -----------------------------------------------------------------------
 //  Utility
 // -----------------------------------------------------------------------
 
 struct SharedState {
   float soundVals[N];
+    Pose pose;
 };
 
 // -----------------------------------------------------------------------
@@ -61,12 +63,9 @@ class DistributedExampleApp : public DistributedApp<SharedState> {
  public:
   // The simulate function is only run for the simulator
   virtual void simulate(double dt) override {
-    // add MPI if needed
-#ifdef AL_BUILD_MPI
+    
+      state().pose = nav();
 
-#else
-
-#endif
   }
 
   // -----------------------------------------------------------------------
@@ -154,6 +153,7 @@ class DistributedExampleApp : public DistributedApp<SharedState> {
 
   virtual void onDraw(Graphics& g) override {
     if (hasRole(ROLE_RENDERER) || hasRole(ROLE_DESKTOP) || hasRole(ROLE_SIMULATOR)) {
+    //if (role() == ROLE_DESKTOP) {
       g.clear(0);
 
       g.depthTesting(true);
@@ -163,8 +163,22 @@ class DistributedExampleApp : public DistributedApp<SharedState> {
       drawWaves(g, waves);
       drawPillars(g, state().soundVals);
     }
+      
+      
+       g.clear(0);
+       
+       g.depthTesting(true);
+       g.blending(true);
+       g.blendModeTrans();
+       
+       drawWaves(g, waves);
+       drawPillars(g, state().soundVals);
+       }
+       
   }
 
+      
+      
   void drawPillars(Graphics& g, float soundVals[]) {
     for (int i = 0; i < 2 * N; i++) {
       float height, color;
@@ -233,7 +247,13 @@ class DistributedExampleApp : public DistributedApp<SharedState> {
   // -----------------------------------------------------------------------
 
   void onAnimate(double dt) override {
-    for (int i = 0; i < waves.size(); i++) {
+    
+      if (hasRole(ROLE_RENDERER)) {
+      //if (role() == ROLE_RENDERER) {
+          pose() = state().pose;
+      }
+      
+      for (int i = 0; i < waves.size(); i++) {
       waves[i].pop_back();
       waves[i].insert(waves[i].begin(), state().soundVals[i]);
     }
