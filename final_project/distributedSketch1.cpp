@@ -75,6 +75,7 @@ class DistributedExampleApp : public DistributedApp<SharedState> {
       parameterServer().verbose();
       load_perprojection_configuration();
       cursorHide(true);
+      stereo(true);
     }
 
     samplePlayer.load("../sound/BigSmoke.wav");
@@ -152,17 +153,15 @@ class DistributedExampleApp : public DistributedApp<SharedState> {
   virtual void onDraw(Graphics& g) override {
     if (hasRole(ROLE_RENDERER) || hasRole(ROLE_DESKTOP) ||
         hasRole(ROLE_SIMULATOR)) {
- 
-       g.clear(0.1);
-       g.pointSize(30);
-       g.depthTesting(true);
-       g.blending(true);
-       g.blendModeTrans();
-       
-       drawWaves(g, waves);
-       drawPillars(g, state().soundVals);
-    }
+      g.clear(0.1);
+      g.pointSize(30);
+      g.depthTesting(true);
+      g.blending(true);
+      g.blendModeTrans();
 
+      drawWaves(g, waves);
+      drawPillars(g, state().soundVals);
+    }
   }
 
   void drawPillars(Graphics& g, float soundVals[]) {
