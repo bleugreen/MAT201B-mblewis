@@ -84,7 +84,7 @@ struct SharedState {
 class DistributedExampleApp : public DistributedApp<SharedState> {
 public:
     
-    DistributedApp(){
+    DistributedExampleApp(){
         if(hasRole(ROLE_RENDERER)){
             displayMode(displayMode() | Window::STEREO_BUF);
         }
