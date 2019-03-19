@@ -51,17 +51,18 @@ float pillarRadius = 2.0;
 
 vector<vector<float>> waves;
 float waveWidth = 2000;
-float waveHeight = 3.0;
+float waveHeight = 4.0;
 float waveRadius = 3.0;
 float waveInnerRadius = 3.0;
 
-float maxTotal, currentTotal, cloudLerp;
 float maxRadius = 10.0;
 int numClouds = N*10;
 int cloudSize = 200;
 vector<Mesh> clouds;
 vector<Vec3f> cloudPos;
 vector<Vec2f> cloudVelocity;
+
+float background = 0.0;
 
 
 bool analysisOn = true;
@@ -100,7 +101,7 @@ public:
             stereo(true);
         }
         
-        samplePlayer.load("../sound/BigSmoke.wav");
+        samplePlayer.load("../sound/10.wav");
         // samplePlayer.loop();
         Sync::master().spu(audioIO().fps());
         
@@ -118,8 +119,7 @@ public:
         createPillars();
         createClouds();
         
-        currentTotal = 0;
-        // nav().pos(0.000000, 17.495046, 46.419401);
+        nav().pos(0.000000, 1.5, 0);
         // nav().quat(Quatd(0.987681, -0.156482, 0.000000, 0.000000));
     }
     
@@ -193,7 +193,7 @@ public:
         if (hasRole(ROLE_RENDERER) || hasRole(ROLE_DESKTOP) ||
             hasRole(ROLE_SIMULATOR)) {
             
-            g.clear((9+(currentTotal/maxTotal))/10);
+            g.clear(0);
             g.pointSize(30);
             g.depthTesting(true);
             g.blending(true);
@@ -236,7 +236,7 @@ public:
             pillars[i].vertices()[15].y = pillarRadius * height;
             pillars[i].vertices()[16].y = pillarRadius * height;
             
-            g.color(HSV(0.33+color*0.667, (height+5)/6, height));
+            g.color(HSV(0.33+color*0.667, (height+5)/10, height));
             g.pushMatrix();
             // g.rotate(180, 0, 0, 1); // translates/rotates s.t. pillars are above
             // and extend down g.translate(0, -10, 0);
@@ -247,7 +247,8 @@ public:
     
     void drawWaves(Graphics& g) {
         for (int i = 0; i < waves.size(); i++) {
-            Mesh m{Mesh::LINE_LOOP};
+            //Mesh m{Mesh::LINE_LOOP};
+            Mesh m{Mesh::TRIANGLE_STRIP};
             float wavePercent = 1 - (float)(i + 1) / waves.size();
             for (int j = 0; j < waves[i].size(); j++) {
                 float valPercent = (float)j / waves[i].size();
@@ -258,9 +259,11 @@ public:
                 float z = (waveInnerRadius + (wavePercent) * waveRadius) *
                 sin(valPercent * 2 * M_PI);
                 
-                float y = 1 + val * waveHeight + (wavePercent * waveHeight);
+                float y = (val * waveHeight) + (wavePercent * waveHeight);
                 
                 m.vertices().push_back(Vec3f(x, y, z));
+                m.vertices().push_back(Vec3f(x, 0, z));
+                m.color(HSV(wavePercent*0.33, (val+1)/2, val));
                 m.color(HSV(wavePercent*0.33, (val+1)/2, val));
             }
             
@@ -301,8 +304,8 @@ public:
         // for each cloud in band[i]
         for(int i=0; i<numClouds; i++){
             float dist = sqrt((cloudPos[i].x * cloudPos[i].x)+(cloudPos[i].z * cloudPos[i].z));
-            float height = (float(i) * 0.005) + 2*(1+waveHeight) - dist/10; // place clouds close together, slightly above waves
-            float hue = 0.66 + 0.33*float(i%N)/N;
+            float height = (float(i) * 0.005) + 2*(1+waveHeight) - dist/5; // place clouds close together, slightly above waves
+            float hue = 0.5 + 0.5*float(i%N)/N;
             if(dist >= maxRadius) cloudVelocity[i] *= -1;
             
             // get last center point
@@ -317,10 +320,10 @@ public:
             clouds[i].vertex(center);
             clouds[i].color(HSV(hue, 0.1, 0.5));
             
-            Vec3f soundPoint, nextSoundPoint;
+            Vec3f soundPoint;
             
             
-            float soundVal, nextSoundVal;
+            float soundVal;
             
             
             
@@ -328,34 +331,29 @@ public:
             for(int k=0; k<cloudSize; k++){
                 
                 // sound val point
-                if(k%10 == 0){
+
                     
                     // find sound-based point and next sound-based point for interpolation
-                    soundVal = waves[i%N][k%10];
-                    nextSoundVal = waves[i%N][(k%10)+15];
+                    soundVal = waves[i%N][k];
+                    float angle = (float(k)/cloudSize) * M_2PI;
                     
-                    float avgVal = (soundVal+nextSoundVal)/2;
-                    
-                    soundVal = (soundVal+avgVal)/2;
-                    nextSoundVal = (nextSoundVal+avgVal)/2;
-                    
-                    float angle = (center.x/200)+(float(k)/cloudSize) * M_2PI;
-                    float nextAngle = (center.x/200)+(float(k+10)/cloudSize) * M_2PI;
                     
                     soundPoint = Vec3f(center.x+(soundVal*cos(angle)), height, center.z+(soundVal*sin(angle)));
-                    nextSoundPoint = Vec3f(center.x+(nextSoundVal*cos(nextAngle)), height, center.z+(nextSoundVal*sin(nextAngle)));
                     
                     clouds[i].vertex(soundPoint);
-                    
-                }
+                    clouds[i].color(HSV(hue, (0.25+soundVal)/2, (1+soundVal)/2));
+                
                 // interpolated point
-                else{
+                /*else{
                     float value = (float(k%10)/10)*(nextSoundVal)+(1-float(k%10)/10)*soundVal;
                     clouds[i].vertex(cosInterpolate(soundPoint, nextSoundPoint, float(k%10)/10));
                     clouds[i].color(HSV(hue, (0.25+value)/2, value));
-                }
+                }*/
                 
             }
+            
+            clouds[i].vertex(clouds[i].vertices()[1]);
+            clouds[i].color(clouds[i].colors()[1]);
             
         }
         
@@ -370,8 +368,6 @@ public:
         while (io() && analysisOn) {
             if (stft(samplePlayer())) {
                 int currentBand = 0;
-                
-                currentTotal = 0;
                 // for each band in Bark scale
                 for (int i = 0; i < bandWidths.size(); i++) {
                     float barkSum = 0;
@@ -396,10 +392,8 @@ public:
                     float changeVal = (distRatio - state().soundVals[i]);
                     if (changeVal > -2 && changeVal < 2) {
                         state().soundVals[i] += changeVal / 20;
-                        currentTotal += state().soundVals[i];
                     }
                 }
-                if(currentTotal >= maxTotal) maxTotal = currentTotal;
             }
             
             float f = samplePlayer.read(0);
