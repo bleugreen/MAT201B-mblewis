@@ -22,6 +22,7 @@
 
 #include <stdio.h>
 #include "al/core.hpp"
+#include "al/core/math/al_Random.hpp"
 #include "al/core/app/al_DistributedApp.hpp"
 using namespace al;
 
@@ -63,6 +64,8 @@ int cloudSize = 100;
 vector<Mesh> clouds;
 vector<Vec3f> cloudPos;
 vector<Vec2f> cloudVelocity;
+
+rnd::Random<> rng;
 
 float background = 0.0;
 
@@ -132,6 +135,10 @@ public:
         
         nav().pos(0.000000, 1.5, 0);
         // nav().quat(Quatd(0.987681, -0.156482, 0.000000, 0.000000));
+        
+        rng.seed(5799);
+        
+        
     }
     
     void createPillars() {
@@ -185,14 +192,14 @@ public:
         // for each cloud in list
         for(int i=0; i<numClouds; i++){
             Mesh cloud{Mesh::TRIANGLE_FAN};
-            Vec3f center(rnd::normal() * (maxRadius/3), (float(i) * 0.0005) + 2*(1+waveHeight), rnd::normal() * (maxRadius/3));
+            Vec3f center(rng.normal() * (maxRadius/3), (float(i) * 0.0005) + 2*(1+waveHeight), rng.normal() * (maxRadius/3));
             // for each point in cloud
             for(int j=0; j<cloudSize; j++){
                 cloud.color(HSV(float(i%N)/N, 0.25, 1));
             }
             clouds.push_back(cloud);
             cloudPos.push_back(center);
-            cloudVelocity.push_back(Vec2f(rnd::normal()*2, rnd::normal()*2));
+            cloudVelocity.push_back(Vec2f(rng.normal()*2, rng.normal()*2));
         }
     }
     
