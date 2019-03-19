@@ -100,7 +100,7 @@ public:
             stereo(true);
         }
         
-        samplePlayer.load("../sound/medley2.wav");
+        samplePlayer.load("../sound/BigSmoke.wav");
         // samplePlayer.loop();
         Sync::master().spu(audioIO().fps());
         
@@ -193,7 +193,7 @@ public:
         if (hasRole(ROLE_RENDERER) || hasRole(ROLE_DESKTOP) ||
             hasRole(ROLE_SIMULATOR)) {
             
-            g.clear(0.5);
+            g.clear((9+(currentTotal/maxTotal))/10);
             g.pointSize(30);
             g.depthTesting(true);
             g.blending(true);
@@ -236,7 +236,7 @@ public:
             pillars[i].vertices()[15].y = pillarRadius * height;
             pillars[i].vertices()[16].y = pillarRadius * height;
             
-            g.color(HSV(0.4+color*0.6, (height+5)/6, height));
+            g.color(HSV(0.33+color*0.667, (height+5)/6, height));
             g.pushMatrix();
             // g.rotate(180, 0, 0, 1); // translates/rotates s.t. pillars are above
             // and extend down g.translate(0, -10, 0);
@@ -261,7 +261,7 @@ public:
                 float y = 1 + val * waveHeight + (wavePercent * waveHeight);
                 
                 m.vertices().push_back(Vec3f(x, y, z));
-                m.color(HSV(wavePercent*0.3, (val+1)/2, val));
+                m.color(HSV(wavePercent*0.33, (val+1)/2, val));
             }
             
             g.meshColor();
@@ -302,6 +302,7 @@ public:
         for(int i=0; i<numClouds; i++){
             float dist = sqrt((cloudPos[i].x * cloudPos[i].x)+(cloudPos[i].z * cloudPos[i].z));
             float height = (float(i) * 0.005) + 2*(1+waveHeight) - dist/10; // place clouds close together, slightly above waves
+            float hue = 0.66 + 0.33*float(i%N)/N;
             if(dist >= maxRadius) cloudVelocity[i] *= -1;
             
             // get last center point
@@ -314,7 +315,7 @@ public:
             clouds[i].colors().clear();
             
             clouds[i].vertex(center);
-            clouds[i].color(HSV(float(i%N)/N, 0.1, 0.5));
+            clouds[i].color(HSV(hue, 0.1, 0.5));
             
             Vec3f soundPoint, nextSoundPoint;
             
@@ -351,7 +352,7 @@ public:
                 else{
                     float value = (float(k%10)/10)*(nextSoundVal)+(1-float(k%10)/10)*soundVal;
                     clouds[i].vertex(cosInterpolate(soundPoint, nextSoundPoint, float(k%10)/10));
-                    clouds[i].color(HSV(float(i%N)/N, 0.25, value));
+                    clouds[i].color(HSV(hue, (0.25+value)/2, value));
                 }
                 
             }
