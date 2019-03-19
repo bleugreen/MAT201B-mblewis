@@ -14,6 +14,8 @@
  add spiral clouds
  sqaush lines down
  
+ chanegd vertice number
+ 
  */
 
 
@@ -88,6 +90,13 @@ public:
         if(hasRole(ROLE_RENDERER)){
             displayMode(displayMode() | Window::STEREO_BUF);
         }
+        if(hasRole(ROLE_DESKTOP)){
+            initAudio();
+        }
+        else{
+            initAudio(44100, 1024, 60, 60, 10);
+        }
+        
         
     }
     
@@ -102,13 +111,7 @@ public:
     // -----------------------------------------------------------------------
     
     virtual void onCreate() override {
-        if (hasRole(ROLE_RENDERER)) {
-            parameterServer().verbose();
-            load_perprojection_configuration();
-            cursorHide(true);
-            stereo(true);
-        }
-        
+
         samplePlayer.load("../sound/10.wav");
         // samplePlayer.loop();
         Sync::master().spu(audioIO().fps());
@@ -244,7 +247,7 @@ public:
             pillars[i].vertices()[15].y = pillarRadius * height;
             pillars[i].vertices()[16].y = pillarRadius * height;
             
-            g.color(HSV(0.33+color*0.667, (height+5)/10, height));
+            g.color(HSV(0.33+color*0.667, (height+5)/10, (height+2)/3));
             g.pushMatrix();
             // g.rotate(180, 0, 0, 1); // translates/rotates s.t. pillars are above
             // and extend down g.translate(0, -10, 0);
@@ -271,8 +274,8 @@ public:
                 
                 m.vertices().push_back(Vec3f(x, y, z));
                 m.vertices().push_back(Vec3f(x, 0, z));
-                m.color(HSV(wavePercent*0.33, (val+1)/2, val));
-                m.color(HSV(wavePercent*0.33, (val+1)/2, val));
+                m.color(HSV(wavePercent*0.33, (val+1)/2, (val*0.7)+0.3));
+                m.color(HSV(wavePercent*0.33, (val+1)/2, (val*0.7)));
             }
             
             g.meshColor();
@@ -312,7 +315,7 @@ public:
         // for each cloud in band[i]
         for(int i=0; i<numClouds; i++){
             float dist = sqrt((cloudPos[i].x * cloudPos[i].x)+(cloudPos[i].z * cloudPos[i].z));
-            float height = (float(i) * 0.005) + 2*(1+waveHeight) - dist/5; // place clouds close together, slightly above waves
+            float height = (float(i) * 0.005) + 2*(waveHeight); // place clouds close together, slightly above waves
             float hue = 0.5 + 0.5*float(i%N)/N;
             if(dist >= maxRadius) cloudVelocity[i] *= -1;
             
@@ -342,14 +345,14 @@ public:
 
                     
                     // find sound-based point and next sound-based point for interpolation
-                    soundVal = waves[i%N][k];
+                    soundVal = 2*waves[i%N][k];
                     float angle = (float(k)/cloudSize) * M_2PI;
                     
                     
                     soundPoint = Vec3f(center.x+(soundVal*cos(angle)), height, center.z+(soundVal*sin(angle)));
                     
                     clouds[i].vertex(soundPoint);
-                    clouds[i].color(HSV(hue, (0.25+soundVal)/2, (1+soundVal)/2));
+                    clouds[i].color(HSV(hue, (0.25+soundVal)/2, (2+soundVal)/3));
                 
                 // interpolated point
                 /*else{
@@ -404,9 +407,10 @@ public:
                 }
             }
             
-            float f = samplePlayer.read(0);
-            io.out(0) = f;
-            io.out(1) = f;
+            float f = samplePlayer.read(0) / io.channelsOut();
+            for(int i=0; i<io.channelsOut(); i++){
+                io.out(i) = f;
+            }
         }
     }
     
@@ -435,12 +439,6 @@ public:
 
 int main() {
     DistributedExampleApp app;
-    // app.fps(1);
-    app.startFPS();
-    app.print();
-    AudioDevice::printAll();
-    app.audioIO().device(AudioDevice("ECHO XS"));
-    app.initAudio();
     app.start();
     return 0;
 }
