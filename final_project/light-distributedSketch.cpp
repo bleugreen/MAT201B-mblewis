@@ -83,6 +83,14 @@ struct SharedState {
 
 class DistributedExampleApp : public DistributedApp<SharedState> {
 public:
+    
+    DistributedApp(){
+        if(hasRole(ROLE_RENDERER)){
+            displayMode(displayMode() | Window::STEREO_BUF);
+        }
+        
+    }
+    
     // The simulate function is only run for the simulator
     virtual void simulate(double dt) override {
         //
