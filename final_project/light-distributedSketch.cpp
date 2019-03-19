@@ -50,14 +50,14 @@ std::vector<Mesh> pillars;
 float pillarRadius = 2.0;
 
 vector<vector<float>> waves;
-float waveWidth = 2000;
+float waveWidth = 500;
 float waveHeight = 4.0;
 float waveRadius = 3.0;
 float waveInnerRadius = 3.0;
 
 float maxRadius = 10.0;
-int numClouds = N*10;
-int cloudSize = 200;
+int numClouds = N*5;
+int cloudSize = 100;
 vector<Mesh> clouds;
 vector<Vec3f> cloudPos;
 vector<Vec2f> cloudVelocity;
