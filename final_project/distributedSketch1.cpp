@@ -275,9 +275,8 @@ class DistributedExampleApp : public DistributedApp<SharedState> {
           // move soundVals[i] incrementally according to distance from
           // current band amplitude
           float changeVal = (distRatio - state().soundVals[i]);
-          if (changeVal > -2 && changeVal < 2) {
-            state().soundVals[i] += changeVal / 20;
-          }
+
+          state().soundVals[i] += changeVal / 20;
         }
       }
 

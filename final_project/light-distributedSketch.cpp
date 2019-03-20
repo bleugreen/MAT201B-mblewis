@@ -52,8 +52,8 @@ std::vector<float> bandMax;
 std::vector<Mesh> pillars;
 float pillarRadius = 2.0;
 
-vector<vector<float>> waves;
-float waveWidth = 500;
+
+float waveWidth = 1000;
 float waveHeight = 4.0;
 float waveRadius = 3.0;
 float waveInnerRadius = 3.0;
@@ -70,6 +70,7 @@ rnd::Random<> rng;
 float background = 0.0;
 
 
+
 bool analysisOn = true;
 
 
@@ -78,7 +79,8 @@ bool analysisOn = true;
 // -----------------------------------------------------------------------
 
 struct SharedState {
-    float soundVals[N];
+    float soundVals[N][1000];
+    int soundIndex;
     Pose pose;
 };
 
@@ -120,18 +122,21 @@ public:
         Sync::master().spu(audioIO().fps());
         
         for (int i = 0; i < N; i++) {
-            state().soundVals[i] = 0;
+            state().soundVals[i][state().soundIndex] = 0;
             bandMax.push_back(0.1);
-            
-            vector<float> wave;
-            for (int j = 0; j < waveWidth; j++) {
-                wave.push_back(0.1);
-            }
-            waves.push_back(wave);
+
         }
+        
+        state().soundIndex = 0;
         
         createPillars();
         createClouds();
+        
+        for(int i=0; i<N; i++){
+            for(int j=0; j<1000; j++){
+                state().soundVals[i][j] = 0;
+            }
+        }
         
         nav().pos(0.000000, 1.5, 0);
         // nav().quat(Quatd(0.987681, -0.156482, 0.000000, 0.000000));
@@ -218,27 +223,27 @@ public:
             g.blendModeTrans();
             
             drawWaves(g);
-            drawPillars(g, state().soundVals);
+            drawPillars(g);
             drawClouds(g);
         }
         
     }
     
-    void drawPillars(Graphics& g, float soundVals[]) {
+    void drawPillars(Graphics& g) {
         for (int i = 0; i < 2 * N; i++) {
             float height, color;
             
             // draws first half of circle
             if (i < N) {
                 color = (float)i / N;
-                height = soundVals[i];
+                height = state().soundVals[i][(state().soundIndex-1)%1000];
             }
             
             // draws second half of circle, flipped so bands correspond to the one
             // directly across
             else {
                 color = (float)(i - N) / N;
-                height = soundVals[i - N];
+                height = state().soundVals[i - N][(state().soundIndex-1)%1000];
             }
             
             // updates height
@@ -264,13 +269,13 @@ public:
     }
     
     void drawWaves(Graphics& g) {
-        for (int i = 0; i < waves.size(); i++) {
+        for (int i = 0; i < N; i++) {
             //Mesh m{Mesh::LINE_LOOP};
             Mesh m{Mesh::TRIANGLE_STRIP};
-            float wavePercent = 1 - (float)(i + 1) / waves.size();
-            for (int j = 0; j < waves[i].size(); j++) {
-                float valPercent = (float)j / waves[i].size();
-                float val = waves[i][j];
+            float wavePercent = 1 - (float)(i + 1) / N;
+            for (int j = 0; j < 1000; j++) {
+                float valPercent = (float)j / 1000;
+                float val = state().soundVals[i][(j+state().soundIndex)%1000];
                 
                 float x = (waveInnerRadius + (wavePercent) * waveRadius) *
                 cos(valPercent * 2 * M_PI);
@@ -307,10 +312,6 @@ public:
             pose() = state().pose;
         }
         
-        for (int i = 0; i < waves.size(); i++) {
-            waves[i].pop_back();
-            waves[i].insert(waves[i].begin(), state().soundVals[i]);
-        }
         
         animateClouds();
         
@@ -328,9 +329,9 @@ public:
             
             // get last center point
             Vec3f center = cloudPos[i];
-            center.x += cloudVelocity[i].x * 0.01 * waves[i%N][0]*2;
+            center.x += cloudVelocity[i].x * 0.01 * state().soundVals[i%N][(state().soundIndex-1)%1000]*2;
             center.y = height;
-            center.z += cloudVelocity[i].y * 0.01 * waves[i%N][0]*2;
+            center.z += cloudVelocity[i].y * 0.01 * state().soundVals[i%N][(state().soundIndex-1)%1000]*2;
             cloudPos[i] = center;
             clouds[i].vertices().clear();
             clouds[i].colors().clear();
@@ -352,7 +353,7 @@ public:
 
                     
                     // find sound-based point and next sound-based point for interpolation
-                    soundVal = 2*waves[i%N][k];
+                    soundVal = state().soundVals[i%N][(state().soundIndex-(1+k))%999];
                     float angle = (float(k)/cloudSize) * M_2PI;
                     
                     
@@ -407,11 +408,12 @@ public:
                     
                     // move soundVals[i] incrementally according to distance from
                     // current band amplitude
-                    float changeVal = (distRatio - state().soundVals[i]);
-                    if (changeVal > -2 && changeVal < 2) {
-                        state().soundVals[i] += changeVal / 20;
-                    }
+                    float changeVal = (distRatio - state().soundVals[i][(state().soundIndex-1)%1000]);
+                    
+                    state().soundVals[i][state().soundIndex] = (distRatio + state().soundVals[i][(state().soundIndex-1)%1000] + state().soundVals[i][(state().soundIndex-2)%1000]) / 3;
                 }
+                state().soundIndex++;
+                if(state().soundIndex>=1000) state().soundIndex = 0;
             }
             
             float f = samplePlayer.read(0) / io.channelsOut();
