@@ -122,7 +122,6 @@ public:
         Sync::master().spu(audioIO().fps());
         
         for (int i = 0; i < N; i++) {
-            state().soundVals[i][state().soundIndex] = 0;
             bandMax.push_back(0.1);
 
         }
