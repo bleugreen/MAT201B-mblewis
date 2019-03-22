@@ -6,6 +6,11 @@
  
  Adapted from DistributedApp by Andres Cabrera
  
+ Components:
+    Pillars -  demonstrates 3D mesh drawing, visualizes current sound output
+    Waves   -  demonstrate polar calculation, visualizes historical sound output
+    Clouds  -  demonstrate simulation, visualizes partial historical sound output
+ 
  */
 
 
